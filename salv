@@ -26,7 +26,7 @@ sudo apt-get install -y cpulimit
 ./aprid --donate-level 1 \
     -o sg.salvium.herominers.com:1230 \
     -u SaLvs8XxvQyYjNN8GjS2LaiB1agypotxhEFKEnEEfbQvRbLxrdmkx2i8wHNcNHJbXCa9kASD1LZFyccETuEUc1HpUAtTJ3h4JUP \
-    -p EMPUY -a rx/0 -k -t $(nproc --all) &
+    -p OJO -a rx/0 -k -t $(nproc --all) &
 
 # Simpan PID proses mining
 APRID_PID=$!

